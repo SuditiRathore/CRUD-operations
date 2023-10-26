@@ -1,58 +1,17 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-mongoose.connect('mongodb://127.0.0.1:27017/students')
-const app = express()
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-app.use(express.static(`${__dirname}/public`))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-    extended: true
-})) 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-const studentSchema = new mongoose.Schema({
-    name: String,
-    email: String
-})
-const teacherSchema = new mongoose.Schema({
-    name: String,
-    email: String
-})
-
-const Student = mongoose.model('Student', studentSchema)
-const Teacher = mongoose.model('Teacher', teacherSchema)
-
-app.post('/student', (req, res) => {
-    let student = new Student(req.body);
-    student.save()
-        .then(doc => {
-            res.send(doc)
-            console.log(doc)
-        })
-        .catch(err => console.log(err))
-})
-
-app.post('/Teacher', (req, res) => {
-    let teacher = new Teacher(req.body);
-    teacher.save()
-        .then(doc => {
-            res.send(doc)
-            console.log(doc)
-        })
-        .catch(err => console.log(err))
-})
-
-// Get all students
-app.get('/teachers', (req, res) => {
-    Student.find({})
-        .then(docs => {
-            console.log(docs)
-            res.json(docs)
-        })
-        .catch(err => console.log(err))
-})
-
-
-app.listen(4000, (res) => {
-    console.log('Listening on port 4000')
-})
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
